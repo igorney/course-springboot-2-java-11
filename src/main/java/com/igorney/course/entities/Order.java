@@ -7,7 +7,9 @@ import com.igorney.course.entities.enuns.OrderStatus;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "tb_order")
@@ -27,6 +29,9 @@ public class Order implements Serializable {
     @ManyToOne
     @JoinColumn(name = "client_id")
     private User client;
+
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderItem> itens = new HashSet<>();
 
     public Order() {
     }
@@ -70,6 +75,9 @@ public class Order implements Serializable {
         if(orderStatus != null) this.orderStatus = orderStatus.getCode();
     }
 
+    public Set<OrderItem> getItens(){
+        return itens;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
